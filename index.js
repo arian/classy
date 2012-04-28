@@ -39,10 +39,7 @@ var reset = function(object){
 // wrap methods to be able to use .parent()
 var wrap = function(fn, name, proto){
 
-	// unwrap if method was already wrapped
-	if (fn._origin) fn = fn._origin;
-
-	var wrapped = function(){
+	return function(){
 
 		var _name       = this._callName;
 		var _proto      = this._callProto;
@@ -58,10 +55,6 @@ var wrap = function(fn, name, proto){
 		return result;
 
 	};
-
-	wrapped._origin = fn;
-
-	return wrapped;
 
 };
 

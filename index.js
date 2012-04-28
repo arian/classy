@@ -104,7 +104,7 @@ var Class = prime({
 // Check of an object is a subclass of another prime
 var isSubPrimeOf = function(object, prime){
 	do {
-		if (object === Class) return true;
+		if (object === prime) return true;
 		object = object && object.parent && object.parent.constructor;
 	} while (object);
 	return false;

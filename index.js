@@ -19,8 +19,8 @@ var cloneObject = function(object){
 };
 
 var cloneArray = function(array){
-	var i = this.length, clone = new Array(i);
-	while (i--) clone[i] = cloneOf(this[i]);
+	var i = array.length, clone = new Array(i);
+	while (i--) clone[i] = cloneOf(array[i]);
 	return clone;
 };
 

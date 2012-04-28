@@ -1,3 +1,8 @@
+/*
+Use Prime with Class
+
+credits to MooTools, http://github.com/kamicane and https://github.com/kentaromiura
+*/"use strict";
 
 var prime = require('prime');
 var type  = require('prime/util/type');

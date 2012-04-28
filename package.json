@@ -1,0 +1,24 @@
+{
+  "author": "Arian Stolwijk (http://github.com/arian)",
+  "name": "Classy",
+  "description": "Brings the MooTools 1.x Class sugar to Prime",
+  "version": "0.0.1",
+  "main": "index",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/arian/classy.git"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "expect.js": "0.1",
+    "mocha": "1.0"
+  },
+  "optionalDependencies": {},
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha tests.js"
+  },
+  "engines": {
+    "node": "*"
+  }
+}

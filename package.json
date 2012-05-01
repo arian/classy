@@ -2,7 +2,7 @@
   "author": "Arian Stolwijk (http://github.com/arian)",
   "name": "Classy",
   "description": "Brings the MooTools 1.x Class sugar to Prime",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "index",
   "repository": {
     "type": "git",

@@ -25,3 +25,19 @@ I would advice to use the basic `prime` wherever possible.
 		- Class.Bind (by @cpojer)
 		- …
 
+### Building and testing
+
+To test and build Classy run:
+
+	# run this once to install the devDependencies (wrapup and mocha)
+	npm install -d
+
+	# install other dependencies (MooTools prime)
+	npm install
+
+	make
+
+Other targets in the Makefile are `build`, `build-min` or `test`.
+
+Testing is done with [mocha](http://visionmedia.github.com/mocha/), and building is done by [wrapup](https://github.com/kamicane/wrapup).
+

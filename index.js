@@ -65,22 +65,6 @@ var wrap = function(fn, name, proto){
 
 };
 
-var overloadImplement = function(implement){
-
-	return function(name, method){
-
-		if (typeof name === 'string'){
-			var object = {};
-			object[name] = method;
-			return implement.call(this, object);
-		}
-
-		return implement.call(this, name);
-
-	};
-
-};
-
 var matchers = [];
 
 var lookup = function(key){
@@ -100,33 +84,32 @@ var Class = prime({
 		// initialize is wrapped, so can use .parent(). .constructor however isn't wrapped.
 		if (this.initialize) this.initialize.apply(this, arguments);
 	},
-	defineMutator:function(key, fn){
+
+	defineMutator: function(key, fn){
 
 		if (type(key) == 'regexp'){
 			matchers.push(key);
 			key = '$mutator:' + key;
 		}
+
 		Mutators[key] = fn;
 		return this;
 
 	},
+
 	mutator: function(key, method){
-	var implement = this.implement;
 
-	if(key in Mutators){
-		this.implement = overloadImplement(implement);
-		Mutators[key].call(this, method);
-		this.implement = implement;
-	}
+		var mutator;
 
-	var name, pkey = lookup(key);
-	if(pkey && (name = pkey[0]) in Mutators){
-		pkey[1].unshift(method);
-		this.implement = overloadImplement(implement);
-		Mutators[name].apply(this, pkey[1]);
-		this.implement = implement;
-		return;
-	}
+		if (mutator = lookup(key)){
+			key = mutator.shift();
+			mutator.unshift(method);
+		}
+
+		if (Mutators.hasOwnProperty(key)){
+			method = Class.Mutators[key].apply(this, mutator || [method]);
+			if (method == null) return;
+		}
 
 		if (key === 'mixin'){
 
@@ -195,7 +178,15 @@ var classy = function(proto){
 	var prim = prime(proto);
 
 	// overload implement method
-	prim.implement = overloadImplement(prim.implement);
+	var implement = prim.implement;
+	prim.implement = function(name, value){
+		if (typeof name == 'string'){
+			var object = {};
+			object[name] = value;
+			name = object;
+		}
+		return implement.call(this, name);
+	};
 
 	return prim;
 

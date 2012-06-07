@@ -9,7 +9,9 @@
     "url": "git://github.com/arian/classy.git"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "prime": "0.0.5-alpha"
+  },
   "devDependencies": {
     "expect.js": "0.1",
     "mocha": "1.0",

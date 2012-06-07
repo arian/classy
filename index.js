@@ -1,12 +1,14 @@
 /*
 Use Prime with Class
 
-credits to MooTools, http://github.com/kamicane and https://github.com/kentaromiura
+credits to MooTools, http://github.com/kamicane and https://github.com/kentaromiura, https://github.com/keeto
 */"use strict";
 
 var prime = require('prime');
 var type  = require('prime/util/type');
 var array = require('prime/es5/array');
+
+var Mutators = {};
 
 // Cloning objects and arrays
 var cloneOf = function(item){
@@ -63,6 +65,34 @@ var wrap = function(fn, name, proto){
 
 };
 
+var overloadImplement = function(implement){
+
+	return function(name, method){
+
+		if (typeof name === 'string'){
+			var object = {};
+			object[name] = method;
+			return implement.call(this, object);
+		}
+
+		return implement.call(this, name);
+
+	};
+
+};
+
+var matchers = [];
+
+var lookup = function(key){
+	var i = matchers.length;
+	while (i--){
+		var matcher = matchers[i],
+			match = key.match(matcher);
+		if (match) return ['$mutator:' + matcher, match.slice(1)];
+	}
+	return null;
+};
+
 var Class = prime({
 
 	constructor: function(){
@@ -70,8 +100,33 @@ var Class = prime({
 		// initialize is wrapped, so can use .parent(). .constructor however isn't wrapped.
 		if (this.initialize) this.initialize.apply(this, arguments);
 	},
+	defineMutator:function(key, fn){
 
+		if (type(key) == 'regexp'){
+			matchers.push(key);
+			key = '$mutator:' + key;
+		}
+		Mutators[key] = fn;
+		return this;
+
+	},
 	mutator: function(key, method){
+	var implement = this.implement;
+
+	if(key in Mutators){
+		this.implement = overloadImplement(implement);
+		Mutators[key].call(this, method);
+		this.implement = implement;
+	}
+
+	var name, pkey = lookup(key);
+	if(pkey && (name = pkey[0]) in Mutators){
+		pkey[1].unshift(method);
+		this.implement = overloadImplement(implement);
+		Mutators[name].apply(this, pkey[1]);
+		this.implement = implement;
+		return;
+	}
 
 		if (key === 'mixin'){
 
@@ -140,23 +195,13 @@ var classy = function(proto){
 	var prim = prime(proto);
 
 	// overload implement method
-	var implement = prim.implement;
-	prim.implement = function(name, method){
-
-		if (typeof name === 'string'){
-			var object = {};
-			object[name] = method;
-			return implement.call(this, object);
-		}
-
-		return implement.call(this, name);
-
-	};
+	prim.implement = overloadImplement(prim.implement);
 
 	return prim;
 
 };
 
 classy.prototype = Class.prototype;
+classy.Mutators = Mutators;
 
 module.exports = classy;

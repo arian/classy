@@ -10,6 +10,6 @@ build-min:
 	@echo "Browser version written to 'classy.min.js'"
 
 test:
-	@./node_modules/mocha/bin/mocha tests.js
+	@./node_modules/mocha/bin/mocha --reporter nyan tests.js
 
 

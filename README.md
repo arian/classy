@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/arian/classy.png)](http://travis-ci.org/arian/classy)
 Prime with Class
 ================
 

@@ -39,5 +39,5 @@ To test and build Classy run:
 
 Other targets in the Makefile are `build`, `build-min` or `test`.
 
-Testing is done with [mocha](http://visionmedia.github.com/mocha/), and building is done by [wrapup](https://github.com/kamicane/wrapup).
+Testing is done with [mocha](https://mochajs.org/), and building is done by [wrapup](https://github.com/kamicane/wrapup).
 
